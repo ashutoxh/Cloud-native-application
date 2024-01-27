@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/cloud-native-app-db
+    username: postgres
+    password: ashutosh
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
