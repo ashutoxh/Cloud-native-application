@@ -1,9 +1,10 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/cloud-native-app-db
-    username: postgres
-    password: ashutosh
+    url: jdbc:postgresql://localhost:5432/cloud_native_app_db
+    username: cloud_user
+    password: ENC(qE8+5aohPUInOL3QOZjJEf1V5/hNbt0WuiEoqaoBdcrOtUDwCBvAuVyuryivvHwb)
+
   jpa:
     hibernate:
       ddl-auto: update
