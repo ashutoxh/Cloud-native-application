@@ -14,14 +14,14 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 @Service
 public class DatabaseHealthIndicator implements HealthIndicator {
-    final DataSource dataSource;
+    private final DataSource dataSource;
 
     @Override
     public Health health() {
         try (Connection ignored = dataSource.getConnection()) {
             return Health.up().build();
         } catch (SQLException e) {
-            log.error("Exception while trying to connect to the database", e);
+            log.error("Exception while trying to connect to the database: {}", e.getMessage());
         }
         return Health.down().build();
     }
