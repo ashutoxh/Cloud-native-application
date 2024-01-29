@@ -1,9 +1,19 @@
+logging:
+  level:
+    root: ERROR
+    org:
+      springframework:
+        web: INFO
+      hibernate: ERROR
+
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/cloud_native_app_db
     username: cloud_user
     password: ENC(qE8+5aohPUInOL3QOZjJEf1V5/hNbt0WuiEoqaoBdcrOtUDwCBvAuVyuryivvHwb)
+    hikari:
+      connection-timeout: 10000 #10 secs
 
   jpa:
     hibernate:

@@ -1,6 +1,7 @@
 package com.csye6225.cloud.controller;
 
 import com.csye6225.cloud.service.DatabaseHealthIndicator;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.http.HttpHeaders;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 public class HealthController {
-    final DatabaseHealthIndicator databaseHealthIndicator;
+    private final DatabaseHealthIndicator databaseHealthIndicator;
 
     @GetMapping("/healthz")
-    public ResponseEntity<String> getHealth() {
+    public ResponseEntity<String> getHealth(HttpServletRequest httpServletRequest) {
         HttpHeaders headers = getRequiredHeaders();
+        if(httpServletRequest.getContentLength() > 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(headers).build();
         if (Status.UP.equals(databaseHealthIndicator.health().getStatus()))
             return ResponseEntity.ok().headers(headers).build();
         else
