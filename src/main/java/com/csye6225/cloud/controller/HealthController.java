@@ -7,7 +7,11 @@ import org.springframework.boot.actuate.health.Status;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.Queue;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,14 +19,14 @@ public class HealthController {
     private final DatabaseHealthIndicator databaseHealthIndicator;
 
     @GetMapping("/healthz")
-    public ResponseEntity<String> getHealth(HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> getHealth(HttpServletRequest httpServletRequest,
+                                            @RequestParam Map<String, String> requestParam) {
         HttpHeaders headers = getRequiredHeaders();
-        if(httpServletRequest.getContentLength() > 0)
+        if(httpServletRequest.getContentLength() > 0 || !requestParam.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(headers).build();
         if (Status.UP.equals(databaseHealthIndicator.health().getStatus()))
             return ResponseEntity.ok().headers(headers).build();
-        else
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).headers(headers).build();
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).headers(headers).build();
     }
 
     @PostMapping("/healthz")

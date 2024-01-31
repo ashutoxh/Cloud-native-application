@@ -16,6 +16,11 @@ import java.sql.SQLException;
 public class DatabaseHealthIndicator implements HealthIndicator {
     private final DataSource dataSource;
 
+    /**
+     * Database connectivity health check
+     *
+     * @return Health (Status.UP or Status.DOWN)
+     */
     @Override
     public Health health() {
         try (Connection ignored = dataSource.getConnection()) {
